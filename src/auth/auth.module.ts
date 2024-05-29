@@ -16,6 +16,7 @@ import { CommentsModule } from '../modules/comments.module';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { KakaoStrategy } from '../auth/strategies/kakao.strategy';
 import { AlarmsModule } from '../modules/alarms.module';
+import { PostModule } from '../modules/post.module';
 
 @Module({
   imports: [
@@ -37,15 +38,16 @@ import { AlarmsModule } from '../modules/alarms.module';
     BodyImageModule,
     CommentsModule,
     AlarmsModule,
+    PostModule,
   ],
   controllers: [AuthController],
   providers: [
     AuthService,
-      JwtStrategy,
-      LocalStrategy,
-      //  GoogleStrategy,
-      // KakaoStrategy
-      ],
+    JwtStrategy,
+    LocalStrategy,
+    //  GoogleStrategy,
+    // KakaoStrategy
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

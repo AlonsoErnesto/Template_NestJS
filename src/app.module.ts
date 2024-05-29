@@ -2,22 +2,20 @@ import { CacheModule, MiddlewareConsumer, Module, NestModule } from '@nestjs/com
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { HttpExceptionFilter } from './common/filters/http-exception.fiter';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmModuleOptions } from './config/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { SlackModule } from './external/slack/slack.module';
-import * as Joi from 'joi';
+import { GraphQLModuleConfig } from './config/graphql/graphql.config';
+import { ConfigGlobalModule } from './config/constant/ConfigGlobal';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync(TypeOrmModuleOptions),
-    ConfigModule.forRoot({ isGlobal: true,
-      validationSchema: Joi.object({
-        ACCESS_KEY: Joi.string().required(),
-      })
-     }),
+    GraphQLModuleConfig,
+    ConfigGlobalModule,
     ThrottlerModule.forRoot({ ttl: 60, limit: 60 }),
     CacheModule.register({ isGlobal: true }),
     SlackModule,
@@ -33,6 +31,7 @@ import * as Joi from 'joi';
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
     },
+    ConfigService,
   ],
 })
 export class AppModule implements NestModule {
