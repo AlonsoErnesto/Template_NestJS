@@ -72,6 +72,7 @@
     "graphql": "^16.8.1",
     "husky": "^9.0.11",
     "joi": "^17.13.1",
+    "lint-staged": "^15.2.5",
     "multer": "^1.4.3",
     "multer-s3": "^3.0.1",
     "mysql": "^2.18.1",
@@ -137,7 +138,15 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node",
-    "allowJs": false
+    "testEnvironment": "node"
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix",
+    "*.ts": "eslint --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
